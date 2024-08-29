@@ -308,8 +308,14 @@ async function startAutoSwitching() {
         previousTrackSettings,
       });
 
-      console.debug("Wait 5 seconds and check track settings again");
-      await sleep(5000);
+      const urlParams = new URL(location.href).searchParams;
+
+      const delay = urlParams.has('delay')
+        ? parseInt(urlParams.get('delay'))
+        : 10_000;
+
+      console.debug(`Wait ${delay / 1000} seconds and check track settings again`);
+      await sleep(delay);
 
       if (areSettingsTheSame()) {
         autoSwitchingEnabled = false;
